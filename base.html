@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}AI Lost & Found{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    {% block content %}{% endblock %}
+
+    <!-- 🔥 Floating Chat Bubble -->
+    <div id="chat-bubble" onclick="toggleChat()">
+        💬
+    </div>
+
+    <!-- 🔥 Chat Popup -->
+    <div id="chat-popup">
+        <div class="chat-header">
+            <span>AI Assistant</span>
+            <button onclick="toggleChat()">✖</button>
+        </div>
+
+        <div class="chat-body">
+            <p>Hello 👋 How can I help you?</p>
+        </div>
+
+        <form method="POST" action="/chat" class="chat-form">
+            <input type="text" name="message" placeholder="Type message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleChat() {
+            var popup = document.getElementById("chat-popup");
+            popup.style.display =
+                popup.style.display === "flex" ? "none" : "flex";
+        }
+    </script>
+
+</body>
+</html>

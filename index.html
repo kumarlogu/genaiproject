@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Lost & Found</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="card">
+        <h1>🔍 AI Lost & Found System</h1>
+
+        <div class="button-group">
+            <a href="/report" class="btn primary">Report Lost Item</a>
+            <a href="/search" class="btn secondary">Search Items</a>
+            <a href="/chat" class="btn primary">Chat Assistant</a>
+        </div>
+    </div>
+
+    <!-- 🔥 Floating Chat Bubble -->
+    <div id="chat-bubble" onclick="toggleChat()">
+        💬
+    </div>
+
+    <!-- 🔥 Chat Popup -->
+    <div id="chat-popup" class="chat-popup">
+        <div class="chat-header">
+            <span>AI Assistant</span>
+            <button type="button" onclick="toggleChat()">✖</button>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+            <div class="bot-message">
+                Hello 👋 How can I help you?
+            </div>
+        </div>
+
+        <form id="chat-form" class="chat-form">
+            <input type="text" id="chat-input" name="message" placeholder="Type message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <!-- 🔥 Script -->
+    <script>
+        function toggleChat() {
+            const popup = document.getElementById("chat-popup");
+            popup.classList.toggle("active");
+        }
+
+        const form = document.getElementById("chat-form");
+        const chatBody = document.getElementById("chat-body");
+        const input = document.getElementById("chat-input");
+
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            chatBody.innerHTML += `
+                <div class="user-message">
+                    ${message}
+                </div>
+            `;
+
+            input.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Send to backend
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `message=${encodeURIComponent(message)}`
+            });
+
+            const text = await response.text();
+
+            // Add bot reply
+            chatBody.innerHTML += `
+                <div class="bot-message">
+                    ${text}
+                </div>
+            `;
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+        });
+    </script>
+
+</body>
+</html>

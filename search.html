@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Search Items{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Search Lost Items</h2>
+
+    <!-- Search Form -->
+    <form method="POST" class="search-form">
+        <input type="text" name="query" placeholder="Search..." required>
+        <button type="submit" class="btn primary">Search</button>
+    </form>
+
+    <!-- Results Section -->
+    <div class="results">
+
+        {% if results and results|length > 0 %}
+
+            {% for item in results %}
+            <div class="result-card">
+                
+                <h3>{{ item['item_name'] }}</h3>
+
+                <p><strong>Description:</strong></p>
+                <p>{{ item['description'] }}</p>
+
+                <p><strong>Tags:</strong> {{ item['tags'] }}</p>
+
+                <p><strong>Location:</strong> {{ item['location'] }}</p>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+
+            <p class="no-results">No matching items found.</p>
+
+        {% endif %}
+
+    </div>
+
+    <a href="/" class="back-link">← Back to Home</a>
+</div>
+
+{% endblock %}

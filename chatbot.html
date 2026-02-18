@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card">
+    <h2>🤖 Lost & Found Assistant</h2>
+
+    <form method="POST">
+        <input type="text" name="message" placeholder="Describe your lost item..." required>
+        <button type="submit" class="btn primary full">Ask</button>
+    </form>
+
+    <div class="results" style="margin-top:20px;">
+        {{ reply|safe }}
+    </div>
+
+    <a href="/" class="back-link">← Back to Home</a>
+</div>
+
+</body>
+</html>
